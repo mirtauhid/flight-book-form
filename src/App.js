@@ -3,6 +3,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { faPlaneArrival, faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import emailjs from 'emailjs-com';
 import { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import './App.css';
@@ -13,6 +14,8 @@ function App() {
     const [adultsCount, setAdultsCount] = useState(0);
     const [childCount, setChildCount] = useState(0);
     const [data, setData] = useState({});
+
+    const templateParams = data;
 
     const addAdult = () => {
         setAdultsCount(adultsCount + 1);
@@ -34,8 +37,33 @@ function App() {
         }
     };
 
-    const viewData = () => {
+    function sendEmail(e) {
+        e.preventDefault();
+
+        emailjs
+            .send(
+                'service_3xjmjao',
+                'template_kyu8ez9',
+                templateParams,
+                'user_0H2rO4Hyu0QmmGlvgC3JY'
+            )
+            .then(
+                (result) => {
+                    console.log(result.text);
+                },
+                (error) => {
+                    console.log(error.text);
+                }
+            );
+    }
+
+    const confirmData = (e) => {
+        sendEmail(e);
+    };
+
+    const viewData = (e) => {
         console.log(data);
+        confirmData(e);
     };
 
     const dataSubmitted = (e) => {
@@ -44,14 +72,16 @@ function App() {
             ...data,
             Adults: adultsCount,
             Child: childCount,
-            Date: selectedDate,
-            Return: returnDate,
+            Date: selectedDate.toDateString().split(' ').join(' '),
+            Return: returnDate.toDateString().split(' ').join(' '),
         });
-        document.getElementById('form').reset();
+        document.getElementById('form')?.reset();
         setAdultsCount(0);
         setChildCount(0);
-        viewData();
+        viewData(e);
     };
+
+    console.log(data);
 
     return (
         <div className="App">
@@ -65,7 +95,7 @@ function App() {
                     </Col>
                     <Col md={5} id="right-sec">
                         <div id="formWrapper">
-                            <form id="form">
+                            <form id="form ">
                                 <div className="top">
                                     <div className="topContainer">
                                         <div className="tabs">
@@ -73,7 +103,7 @@ function App() {
                                                 required
                                                 type="radio"
                                                 id="radio-1"
-                                                name="tabs"
+                                                name="Type"
                                                 defaultChecked
                                                 onChange={() =>
                                                     setData({ ...data, 'Quote type': 'One way' })
@@ -85,7 +115,7 @@ function App() {
                                             <input
                                                 type="radio"
                                                 id="radio-2"
-                                                name="tabs"
+                                                name="Type"
                                                 onChange={() =>
                                                     setData({ ...data, 'Quote type': 'Round trip' })
                                                 }
@@ -96,7 +126,7 @@ function App() {
                                             <input
                                                 type="radio"
                                                 id="radio-3"
-                                                name="tabs"
+                                                name="Type"
                                                 onChange={() =>
                                                     setData({ ...data, 'Quote type': 'Multi City' })
                                                 }
@@ -116,7 +146,7 @@ function App() {
                                         <input
                                             required
                                             type="text"
-                                            name="from"
+                                            name="From"
                                             id="from"
                                             placeholder="From"
                                             onChange={(e) =>
@@ -133,7 +163,7 @@ function App() {
                                         <input
                                             required
                                             type="text"
-                                            name="to"
+                                            name="To"
                                             id="to"
                                             placeholder="To"
                                             onChange={(e) =>
@@ -151,6 +181,7 @@ function App() {
                                                 label="Departure"
                                                 value={selectedDate}
                                                 onChange={handleDateChange}
+                                                name="Departure"
                                             />
                                         </div>
 
@@ -160,6 +191,7 @@ function App() {
                                                 label="Return"
                                                 value={returnDate}
                                                 onChange={setReturnDate}
+                                                name="Return"
                                             />
                                         </div>
                                     </div>
@@ -200,7 +232,7 @@ function App() {
                                             <input
                                                 type="radio"
                                                 id="radio-10"
-                                                name="tabs2"
+                                                name="Class"
                                                 defaultChecked
                                                 onChange={() =>
                                                     setData({ ...data, Class: 'Economy' })
@@ -212,7 +244,7 @@ function App() {
                                             <input
                                                 type="radio"
                                                 id="radio-20"
-                                                name="tabs2"
+                                                name="Class"
                                                 onChange={() =>
                                                     setData({ ...data, Class: 'Business' })
                                                 }
@@ -223,7 +255,7 @@ function App() {
                                             <input
                                                 type="radio"
                                                 id="radio-30"
-                                                name="tabs2"
+                                                name="Class"
                                                 onChange={() =>
                                                     setData({ ...data, Class: 'First class' })
                                                 }
@@ -239,7 +271,7 @@ function App() {
                                     <div id="nonStop">
                                         <input
                                             type="checkbox"
-                                            name="non-stop"
+                                            name="Non stop flights only"
                                             id="non-stop"
                                             onChange={() =>
                                                 setData({ ...data, 'Non stop flights': true })
