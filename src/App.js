@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import DateFnsUtils from '@date-io/date-fns';
-import { faPlaneArrival, faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import emailjs from 'emailjs-com';
 import { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import './App.css';
+import Arrive from './Assets/arrive.png';
+import Depart from './Assets/depart.png';
 
 function App() {
     const [selectedDate, handleDateChange] = useState(new Date());
@@ -14,8 +16,6 @@ function App() {
     const [adultsCount, setAdultsCount] = useState(0);
     const [childCount, setChildCount] = useState(0);
     const [data, setData] = useState({});
-
-    const templateParams = data;
 
     const addAdult = () => {
         setAdultsCount(adultsCount + 1);
@@ -37,6 +37,8 @@ function App() {
         }
     };
 
+    const templateParams = data;
+
     function sendEmail(e) {
         e.preventDefault();
 
@@ -57,8 +59,14 @@ function App() {
             );
     }
 
-    const confirmData = (e) => {
+    const sendData = (e) => {
         sendEmail(e);
+    };
+
+    const confirmData = (e) => {
+        const x = 2 + 5;
+        console.log(x);
+        sendData(e);
     };
 
     const viewData = (e) => {
@@ -66,8 +74,13 @@ function App() {
         confirmData(e);
     };
 
+    function onSubmit(token) {
+        document.getElementById('form').submit(token);
+    }
+
     const dataSubmitted = (e) => {
         e.preventDefault();
+        onSubmit();
         setData({
             ...data,
             Adults: adultsCount,
@@ -82,6 +95,13 @@ function App() {
     };
 
     console.log(data);
+
+    const disableInput = document.getElementById('disableInput');
+    if (data.Type === 'One way') {
+        disableInput.disabled = true;
+    } else if (data.Type === 'Round trip') {
+        disableInput.disabled = false;
+    }
 
     return (
         <div className="App">
@@ -106,7 +126,7 @@ function App() {
                                                 name="Type"
                                                 defaultChecked
                                                 onChange={() =>
-                                                    setData({ ...data, 'Quote type': 'One way' })
+                                                    setData({ ...data, Type: 'One way' })
                                                 }
                                             />
                                             <label className="tab" htmlFor="radio-1">
@@ -117,30 +137,20 @@ function App() {
                                                 id="radio-2"
                                                 name="Type"
                                                 onChange={() =>
-                                                    setData({ ...data, 'Quote type': 'Round trip' })
+                                                    setData({ ...data, Type: 'Round trip' })
                                                 }
                                             />
                                             <label className="tab" htmlFor="radio-2">
                                                 Round Trip
                                             </label>
-                                            <input
-                                                type="radio"
-                                                id="radio-3"
-                                                name="Type"
-                                                onChange={() =>
-                                                    setData({ ...data, 'Quote type': 'Multi City' })
-                                                }
-                                            />
-                                            <label className="tab" htmlFor="radio-3">
-                                                Multicity
-                                            </label>
+
                                             <span className="glider" />
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex">
                                     <div className="leftIcon">
-                                        <FontAwesomeIcon size="2x" icon={faPlaneDeparture} />
+                                        <img src={Depart} alt="Departure" />
                                     </div>
                                     <div className="rightInp">
                                         <input
@@ -157,7 +167,7 @@ function App() {
                                 </div>
                                 <div className="d-flex">
                                     <div className="leftIcon">
-                                        <FontAwesomeIcon size="2x" icon={faPlaneArrival} />
+                                        <img src={Arrive} alt="Arrive" />
                                     </div>
                                     <div className="rightInp">
                                         <input
@@ -187,11 +197,13 @@ function App() {
 
                                         <div className="date">
                                             <DatePicker
+                                                id="disableInput"
                                                 disableToolbar
                                                 label="Return"
                                                 value={returnDate}
                                                 onChange={setReturnDate}
                                                 name="Return"
+                                                disabled="disabled"
                                             />
                                         </div>
                                     </div>
@@ -238,7 +250,7 @@ function App() {
                                                     setData({ ...data, Class: 'Economy' })
                                                 }
                                             />
-                                            <label className="tab" htmlFor="radio-10">
+                                            <label className="tab2" htmlFor="radio-10">
                                                 Economy
                                             </label>
                                             <input
@@ -249,7 +261,7 @@ function App() {
                                                     setData({ ...data, Class: 'Business' })
                                                 }
                                             />
-                                            <label className="tab" htmlFor="radio-20">
+                                            <label className="tab2" htmlFor="radio-20">
                                                 Business
                                             </label>
                                             <input
@@ -260,37 +272,41 @@ function App() {
                                                     setData({ ...data, Class: 'First class' })
                                                 }
                                             />
-                                            <label className="tab" htmlFor="radio-30">
+                                            <label className="tab2" htmlFor="radio-30">
                                                 First Class
                                             </label>
-                                            <span className="glider" />
+                                            <span className="glider2" />
                                         </div>
                                     </div>
                                 </div>
                                 <div className="bottom flex-col">
                                     <div id="nonStop">
+                                        <div
+                                            style={{
+                                                marginLeft: '10px',
+                                                marginTop: '2px',
+                                                color: 'var(--primary-color)',
+                                            }}
+                                        >
+                                            <FontAwesomeIcon size="1x" icon={faEnvelope} />
+                                        </div>
                                         <input
-                                            type="checkbox"
-                                            name="Non stop flights only"
-                                            id="non-stop"
-                                            onChange={() =>
-                                                setData({ ...data, 'Non stop flights': true })
+                                            required
+                                            type="text"
+                                            name="Email"
+                                            id="email"
+                                            placeholder="Your Email*"
+                                            onChange={(e) =>
+                                                setData({ ...data, Email: e.target.value })
                                             }
                                         />
-                                        <label
-                                            style={{
-                                                marginBottom: '2px',
-                                                marginLeft: '10px',
-                                            }}
-                                            htmlFor="non-stop"
-                                        >
-                                            Non stop flights only
-                                        </label>
                                     </div>
                                     <input
                                         type="submit"
-                                        value="Submit"
-                                        onClick={(e) => dataSubmitted(e)}
+                                        className="g-recaptcha"
+                                        data-sitekey="6LcptnUbAAAAAK8X0dVcNKF2DAIhMjzuslL1YSwN
+                                        "
+                                        data-callback={(e) => dataSubmitted(e)}
                                     />
                                 </div>
                             </form>
@@ -298,6 +314,13 @@ function App() {
                     </Col>
                 </Row>
             </Container>
+            <div
+                className="g-recaptcha"
+                data-sitekey="6LcptnUbAAAAAK8X0dVcNKF2DAIhMjzuslL1YSwN
+                "
+                data-callback="onSubmit"
+                data-size="invisible"
+            />
         </div>
     );
 }

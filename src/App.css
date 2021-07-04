@@ -106,7 +106,21 @@ input[type="radio"] {
   align-items: center;
   justify-content: center;
   height:40px;
-  width: 33.33%;
+  width: 48.9%;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: color 0.15s ease-in;
+  margin-bottom: 0px;
+}
+
+.tab2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height:40px;
+  width: 33.3%;
   font-size: 1rem;
   font-weight: 700;
   border-radius: 99px;
@@ -143,6 +157,49 @@ input[id="radio-30"]:checked ~ .glider {
 }
 
 .glider {
+  position: absolute;
+  display: flex;
+  height: 41.2px;
+  width: 48.9%;
+  background-color: var(--secondary-color);
+  z-index: 1;
+  border-radius: 99px;
+  transition: 0.25s ease-out;
+}
+
+#email {
+  border: none;outline: none;
+  width: 100%;
+  padding-left: 10px;
+  height: 100%;
+  border-radius: 99px;
+}
+
+#email:focus {
+  
+}
+
+input[id="radio-1"]:checked ~ .glider2 {
+  transform: translateX(0);
+}
+input[id="radio-2"]:checked ~ .glider2 {
+  transform: translateX(100%);
+}
+input[id="radio-3"]:checked ~ .glider2 {
+  transform: translateX(200%);
+}
+
+input[id="radio-10"]:checked ~ .glider2 {
+  transform: translateX(0);
+}
+input[id="radio-20"]:checked ~ .glider2 {
+  transform: translateX(100%);
+}
+input[id="radio-30"]:checked ~ .glider2 {
+  transform: translateX(200%);
+}
+
+.glider2 {
   position: absolute;
   display: flex;
   height: 41.2px;
@@ -304,7 +361,7 @@ input[type="checkbox"] {
   overflow: hidden;
   height: 60px;
   margin-bottom: 0px;
-  max-width: 173px;
+  max-width: 150px;
   border-radius: 6px;
 }
 
@@ -320,7 +377,7 @@ input[type="checkbox"] {
   height: 62px;
   margin-bottom: 0px;
   width: 100%;
-  max-width: 173px;
+  max-width: 150px;
   margin-top: -10px;
 }
 
