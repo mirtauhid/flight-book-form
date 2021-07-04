@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import DateFnsUtils from '@date-io/date-fns';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import emailjs from 'emailjs-com';
@@ -280,7 +280,7 @@ function App() {
                                     </div>
                                 </div>
                                 <div className="bottom flex-col">
-                                    <div id="nonStop">
+                                    <div id="nonStop" style={{ marginTop: '10px' }}>
                                         <div
                                             style={{
                                                 marginLeft: '10px',
@@ -301,7 +301,37 @@ function App() {
                                             }
                                         />
                                     </div>
+                                    <div className="date2">
+                                        <div
+                                            style={{
+                                                marginLeft: '2px',
+                                                marginTop: '2px',
+                                                marginRight: '5px',
+                                                color: 'var(--primary-color)',
+                                            }}
+                                        >
+                                            <FontAwesomeIcon size="1x" icon={faMoneyCheckAlt} />
+                                        </div>
+                                        <select
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                border: 'none',
+                                                outline: 'none',
+                                                color: 'grey',
+                                            }}
+                                            name="payment"
+                                            id="payment"
+                                        >
+                                            <option default selected>
+                                                Payment Method
+                                            </option>
+                                            <option value="Card">Card</option>
+                                            <option value="Crypto">Crypto</option>
+                                        </select>
+                                    </div>
                                     <input
+                                        style={{ marginTop: '15px' }}
                                         type="submit"
                                         className="g-recaptcha"
                                         data-sitekey="6LfwuHUbAAAAAG-G073rAwjs3yiqXwW7kuWgv3NZ

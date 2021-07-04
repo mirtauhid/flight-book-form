@@ -12,5 +12,6 @@
         "service",
         "user",
         "xjmjao"
-    ]
+    ],
+    "json.maxItemsComputed": 5000000
 }
