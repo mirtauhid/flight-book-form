@@ -304,7 +304,8 @@ function App() {
                                     <input
                                         type="submit"
                                         className="g-recaptcha"
-                                        data-sitekey="6LcptnUbAAAAAK8X0dVcNKF2DAIhMjzuslL1YSwN
+                                        data-sitekey="6LfwuHUbAAAAAG-G073rAwjs3yiqXwW7kuWgv3NZ
+
                                         "
                                         data-callback={(e) => dataSubmitted(e)}
                                     />
