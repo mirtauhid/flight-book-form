@@ -42,7 +42,7 @@ body{
 }
 
 #right-sec {
-  height: 100vh;
+  height: 100%;
   /* background-color: rgba(#e6eef9, 0.5);
    */
    background-color: transparent;
@@ -175,9 +175,7 @@ input[id="radio-30"]:checked ~ .glider {
   border-radius: 99px;
 }
 
-#email:focus {
-  
-}
+
 
 input[id="radio-1"]:checked ~ .glider2 {
   transform: translateX(0);
@@ -537,3 +535,30 @@ input[type="select"]{
     margin-right: 100px;
   }
 }
+
+#from {
+  position: relative;
+}
+ .suggest {
+   min-height: 300px;
+   overflow-y: scroll;
+ }
+
+ .suggest ul li {
+   list-style-type:none;
+   border-top: 1px solid #ccc;
+   border-Bottom: 1px solid #ccc;
+   padding: 10px 0px
+   
+ }
+
+ .parent {
+  position: absolute;
+  z-index: 99999;
+  height: 250px !important;
+  width: 300px;
+  overflow: hidden !important;
+  background-color: #fff;
+  transform: translate(-22%, 0%);
+  transition: 0.25s ease all-in-out;
+ }

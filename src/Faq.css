@@ -1,0 +1,13 @@
+.faq-container {
+    padding: 5.2vw;
+    font-weight: 700 !important;
+    height: 100vh;
+    background-color: transparent;
+}
+
+@media (min-width: 768px) {
+    #Accordion {
+        max-width: 70vw;
+        margin: 0 auto;
+    }
+}
