@@ -569,3 +569,7 @@ input[type="select"] {
 .MuiFormLabel-root {
   margin-left: 0px !important;
 }
+
+.MuiFormControl-root {
+  box-shadow: none !important;
+}
