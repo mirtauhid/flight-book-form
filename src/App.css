@@ -1,39 +1,41 @@
 :root {
-	--primary-color: #185ee0;
-	--secondary-color: #e6eef9;
+  --primary-color: #185ee0;
+  --secondary-color: #e6eef9;
 }
 
 *,
 *:after,
 *:before {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-body{
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, .4) 0%, rgba(255, 255, 255, .4) 100%), url(./Assets/left-bg.jpg);
+body {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.4) 100%
+    ),
+    url(./Assets/left-bg.jpg);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%;
   overflow: scroll;
+  padding-bottom: auto;
 }
 
 #left-sec {
-  height: 100vh;
   background-color: transparent;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   text-align: left;
-  padding: 10% 80px;
-  
-  
+  padding: 7% 80px;
 }
 
 #left-sec h1 {
   font-size: 4rem;
   font-weight: 700;
   color: #464546;
-
 }
 
 #left-sec h1 span {
@@ -45,12 +47,12 @@ body{
   height: 100%;
   /* background-color: rgba(#e6eef9, 0.5);
    */
-   background-color: transparent;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 65px 110px;
+  padding: 9px 110px;
 }
 
 #formWrapper {
@@ -63,6 +65,7 @@ body{
   overflow: hidden;
   padding: 5%;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+  margin-top: 1vw;
 }
 
 .flex-row {
@@ -70,12 +73,10 @@ body{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0px;
-  margin-bottom: 10px;
+  padding: 7px 0px;
 }
 
 .topContainer {
-  
   left: 0;
   top: 0;
   right: 0;
@@ -89,9 +90,10 @@ body{
   display: flex;
   position: relative;
   background-color: #fff;
-  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
-  padding: .25rem;
-  
+  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15),
+    0 6px 12px 0 rgba(24, 94, 224, 0.15);
+  padding: 0.25rem;
+
   width: 100%;
   border-radius: 99px;
 }
@@ -105,7 +107,7 @@ input[type="radio"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  height:40px;
+  height: 40px;
   width: 48.9%;
   font-size: 1rem;
   font-weight: 700;
@@ -119,7 +121,7 @@ input[type="radio"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  height:40px;
+  height: 40px;
   width: 33.3%;
   font-size: 1rem;
   font-weight: 700;
@@ -168,14 +170,13 @@ input[id="radio-30"]:checked ~ .glider {
 }
 
 #email {
-  border: none;outline: none;
+  border: none;
+  outline: none;
   width: 100%;
   padding-left: 10px;
   height: 100%;
   border-radius: 99px;
 }
-
-
 
 input[id="radio-1"]:checked ~ .glider2 {
   transform: translateX(0);
@@ -226,19 +227,18 @@ input[type="submit"] {
   z-index: 1;
   border-radius: 99px;
   transition: 0.25s ease-out;
-  border: none;outline: none;
+  border: none;
+  outline: none;
   margin: 0 auto;
-  font-size: 1.15rem;font-weight: 700;
+  font-size: 1.15rem;
+  font-weight: 700;
   height: 56px;
-  
 }
-
 
 input[type="submit"]:hover {
   background-color: var(--primary-color);
   color: #fff;
   transition: 0.25s ease-in-out;
-  
 }
 
 .dist {
@@ -253,10 +253,10 @@ input[type="submit"]:hover {
   border-radius: 6px;
   background-color: transparent;
   border: none;
-
 }
 
-.dist input[type="text"], input[type="date"]{
+.dist input[type="text"],
+input[type="date"] {
   width: 100%;
   height: 80px;
   border: none;
@@ -265,16 +265,14 @@ input[type="submit"]:hover {
   padding-left: 5px;
 }
 
-.date input[type="date"]{
-  max-width:  70%;
+.date input[type="date"] {
+  max-width: 70%;
   height: 80px;
   border: none;
   outline: none;
   border-bottom: 2px solid #e0e0e0;
   padding-left: 5px;
 }
-
-
 
 .distMid {
   width: 43px !important;
@@ -284,11 +282,9 @@ input[type="submit"]:hover {
   width: 100%;
 }
 
-.selectPass input[type="select"]{
+.selectPass input[type="select"] {
   width: 100px !important;
 }
-
-
 
 .d-flex {
   display: flex;
@@ -297,7 +293,8 @@ input[type="submit"]:hover {
   justify-content: flex-start;
   margin-top: 10px;
   background-color: #fff;
-  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15),
+    0 6px 12px 0 rgba(24, 94, 224, 0.15);
   border-radius: 16px;
   overflow: hidden;
 }
@@ -313,8 +310,8 @@ input[type="submit"]:hover {
   outline: none;
   background-color: #fff;
   height: 62px;
+  max-height: 62px;
   font-size: 1rem !important;
-  
 }
 
 .d-flex .leftIcon {
@@ -323,7 +320,7 @@ input[type="submit"]:hover {
   justify-content: center;
   align-items: center;
   height: 62px;
-  width:54px;
+  width: 54px;
   color: #464546;
   padding-left: 8px;
 }
@@ -335,18 +332,21 @@ input[type="submit"]:hover {
   justify-content: center;
   margin-top: 10px;
   background-color: #fff;
-  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15),
+    0 6px 12px 0 rgba(24, 94, 224, 0.15);
   border-radius: 16px;
   overflow: hidden;
   height: 40px;
   margin-bottom: 20px;
   margin-top: 20px;
   text-align: center;
-  font-size: 1rem;font-weight: 700;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 input[type="checkbox"] {
-  height: 16px;width: 16px;
+  height: 16px;
+  width: 16px;
 }
 
 .date {
@@ -355,12 +355,15 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+  box-shadow: 0 0 1px 0px rgba(24, 94, 224, 0.15),
+    0 6px 12px 4px rgba(24, 94, 224, 0.15);
   overflow: hidden;
   height: 60px;
-  margin-bottom: 0px;
+  margin-bottom: 8px;
+  margin-top: 5px;
   max-width: 150px;
   border-radius: 6px;
+  padding-left: 10px !important;
 }
 
 .date2 {
@@ -369,14 +372,15 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15),
+    0 6px 12px 0 rgba(24, 94, 224, 0.15);
   overflow: hidden;
   height: 40px;
   margin-bottom: 10px;
   width: 100%;
   border-radius: 6px;
-  margin-top:-10px;
-  padding: 0px 5px;
+  margin-top: -0px;
+  padding: 5px 10px 0px 5px;
 }
 
 .pass {
@@ -385,8 +389,9 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
-  border-radius:6px;
+  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15),
+    0 6px 12px 0 rgba(24, 94, 224, 0.15);
+  border-radius: 6px;
   overflow: hidden;
   height: 62px;
   margin-bottom: 0px;
@@ -423,7 +428,7 @@ input[type="checkbox"] {
   transition: 0.25s ease-in-out;
 }
 
-input[type="select"]{
+input[type="select"] {
   width: 173px !important;
 }
 
@@ -437,8 +442,7 @@ input[type="select"]{
   width: 172px;
   max-width: 173px;
   padding: 7px 10px !important;
-  border-bottom: none!important;
-  
+  border-bottom: none !important;
 }
 
 .MuiInput-underline:after {
@@ -467,9 +471,7 @@ input[type="select"]{
   position: absolute;
   list-style-type: none;
   width: 100%;
-
 }
-
 
 @media (max-width: 767px) {
   .mainRow {
@@ -480,7 +482,12 @@ input[type="select"]{
   }
 
   #left-sec {
-    background: linear-gradient(to bottom, rgba(21, 21, 22, 0.4) 0%, rgba(21, 21, 22, 0.4)  100%), url(./Assets/mobile-bg2.jpg);
+    background: linear-gradient(
+        to bottom,
+        rgba(21, 21, 22, 0.4) 0%,
+        rgba(21, 21, 22, 0.4) 100%
+      ),
+      url(./Assets/mobile-bg2.jpg);
     background-repeat: no-repeat;
     background-position: center top;
     background-size: cover;
@@ -495,7 +502,7 @@ input[type="select"]{
     font-size: 4rem;
     color: #fff;
     text-align: center;
-    display:flex;
+    display: flex;
     flex-direction: column !important;
     letter-spacing: 10px;
     justify-content: center;
@@ -530,35 +537,35 @@ input[type="select"]{
   }
 }
 
-@media(min-width: 768px) and (max-width: 992px) {
+@media (min-width: 768px) and (max-width: 992px) {
   #formWrapper {
     margin-right: 100px;
   }
 }
 
-#from {
+.content {
   position: relative;
 }
- .suggest {
-   min-height: 300px;
-   overflow-y: scroll;
- }
 
- .suggest ul li {
-   list-style-type:none;
-   border-top: 1px solid #ccc;
-   border-Bottom: 1px solid #ccc;
-   padding: 10px 0px
-   
- }
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon
+  .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
+  padding-right: 0px !important;
+  width: 100% !important;
+  height: 60px !important;
+}
 
- .parent {
-  position: absolute;
-  z-index: 99999;
-  height: 250px !important;
-  width: 300px;
-  overflow: hidden !important;
+.MuiFormControl-root {
+  margin-left: 0px !important;
+  height: 50px !important;
+  margin: 10px 0px;
+  margin-top: 12px !important;
+  border: none !important;
+  outline: none !important;
   background-color: #fff;
-  transform: translate(-22%, 0%);
-  transition: 0.25s ease all-in-out;
- }
+  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15),
+    0 6px 12px 0 rgba(24, 94, 224, 0.15) !important;
+}
+
+.MuiFormLabel-root {
+  margin-left: 0px !important;
+}

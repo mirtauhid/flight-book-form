@@ -3,24 +3,25 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { faEnvelope, faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import emailjs from 'emailjs-com';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import toast, { Toaster } from 'react-hot-toast';
+import useState from 'react-usestateref';
 import './App.css';
-import Arrive from './Assets/arrive.png';
-import Depart from './Assets/depart.png';
 
 const axios = require('axios');
 
 function App() {
-    const [selectedDate, handleDateChange] = useState(new Date());
-    const [returnDate, setReturnDate] = useState(new Date());
-    const [adultsCount, setAdultsCount] = useState(0);
-    const [childCount, setChildCount] = useState(0);
-    const [data, setData] = useState({});
+    const [selectedDate, handleDateChange, datesRef] = useState(new Date());
+    const [returnDate, setReturnDate, returnRef] = useState(new Date());
+    const [adultsCount, setAdultsCount, adultsRef] = useState(0);
+    const [childCount, setChildCount, childRef] = useState(0);
+    const [data, setData, dataRef] = useState({});
     const [json, setJson] = useState([]);
-    const [filData, setFilData] = useState([]);
 
     const addAdult = () => {
         setAdultsCount(adultsCount + 1);
@@ -42,70 +43,40 @@ function App() {
         }
     };
 
-    const templateParams = data;
-
-    function sendEmail(e) {
-        e.preventDefault();
+    function handleClick() {
+        handleDateChange(selectedDate.toDateString().split(' ').join(' '));
+        setReturnDate(returnDate.toDateString().split(' ').join(' '));
+        setData({
+            ...data,
+            departure: datesRef.current,
+            return: returnRef.current,
+            adult: adultsRef.current,
+            children: childRef.current,
+        });
 
         emailjs
             .send(
                 'service_3xjmjao',
                 'template_kyu8ez9',
-                templateParams,
+                dataRef.current,
                 'user_0H2rO4Hyu0QmmGlvgC3JY'
             )
             .then(
-                (result) => {
-                    console.log(result.text);
+                (response) => {
+                    toast.success('Successfully submitted!');
+                    console.log(response);
+                    console.log(dataRef.current);
+                    setData({});
+                    setAdultsCount(0);
+                    setChildCount(0);
+                    if (document.getElementById('form') && document.getElementById('form'))
+                        document.getElementById('form').reset();
                 },
-                (error) => {
-                    console.log(error.text);
+                (err) => {
+                    toast.error('Please Try again!');
+                    console.log(data);
                 }
             );
-    }
-
-    const sendData = (e) => {
-        sendEmail(e);
-    };
-
-    const confirmData = (e) => {
-        const x = 2 + 5;
-        console.log(x);
-        sendData(e);
-    };
-
-    const viewData = (e) => {
-        console.log(data);
-        confirmData(e);
-    };
-
-    function onSubmit(token) {
-        document.getElementById('form').submit(token);
-    }
-
-    const dataSubmitted = (e) => {
-        e.preventDefault();
-        onSubmit();
-        setData({
-            ...data,
-            Adults: adultsCount,
-            Child: childCount,
-            Date: selectedDate.toDateString().split(' ').join(' '),
-            Return: returnDate.toDateString().split(' ').join(' '),
-        });
-        document.getElementById('form')?.reset();
-        setAdultsCount(0);
-        setChildCount(0);
-        viewData(e);
-    };
-
-    console.log(data);
-
-    const disableInput = document.getElementById('disableInput');
-    if (data.Type === 'One way') {
-        disableInput.disabled = true;
-    } else if (data.Type === 'Round trip') {
-        disableInput.disabled = false;
     }
 
     useEffect(() => {
@@ -120,14 +91,15 @@ function App() {
         loadUsers();
     }, []);
 
-    const onChangeHandler = (e) => {
-        e.preventDefault();
-        const x = json.filter((d) => d.city.includes(e.target.value));
-        setFilData(x);
-    };
+    // const onChangeHandler = (e) => {
+    //     e.preventDefault();
+    //     const x = json.filter((d) => d.city.includes(e.target.value));
+    //     setFilData(x);
+    // };
 
     return (
         <div className="App">
+            <Toaster />
             <Container fluid>
                 <Row className="mainRow">
                     <Col md={7} id="left-sec">
@@ -146,10 +118,10 @@ function App() {
                                                 required
                                                 type="radio"
                                                 id="radio-1"
-                                                name="Type"
+                                                name="type"
                                                 defaultChecked
                                                 onChange={() =>
-                                                    setData({ ...data, Type: 'One way' })
+                                                    setData({ ...data, type: 'One way' })
                                                 }
                                             />
                                             <label className="tab" htmlFor="radio-1">
@@ -158,9 +130,9 @@ function App() {
                                             <input
                                                 type="radio"
                                                 id="radio-2"
-                                                name="Type"
+                                                name="type"
                                                 onChange={() =>
-                                                    setData({ ...data, Type: 'Round trip' })
+                                                    setData({ ...data, type: 'Round trip' })
                                                 }
                                             />
                                             <label className="tab" htmlFor="radio-2">
@@ -171,42 +143,44 @@ function App() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="d-flex">
-                                    <div className="leftIcon">
-                                        <img src={Depart} alt="Departure" />
-                                    </div>
-                                    <div className="rightInp">
-                                        <input
-                                            required
-                                            type="text"
-                                            name="From"
-                                            id="from"
-                                            placeholder="From"
-                                            onBlur={(e) => onChangeHandler(e)}
+                                <div className="destination">
+                                    <div>
+                                        <Autocomplete
+                                            id="combo-box-demo"
+                                            options={json}
+                                            name="from"
+                                            getOptionLabel={(option) => option.name}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label="From"
+                                                    variant="outlined"
+                                                    onChange={(e) =>
+                                                        setData({ ...data, origin: e.target.value })
+                                                    }
+                                                />
+                                            )}
                                         />
-                                        <div className="suggest">
-                                            <ul>
-                                                {filData.map((js) => {
-                                                    return <li>{js.city}</li>;
-                                                })}
-                                            </ul>
-                                        </div>
                                     </div>
-                                </div>
-                                <div className="d-flex">
-                                    <div className="leftIcon">
-                                        <img src={Arrive} alt="Arrive" />
-                                    </div>
-                                    <div className="rightInp">
-                                        <input
-                                            required
-                                            type="text"
-                                            name="To"
-                                            id="to"
-                                            placeholder="To"
-                                            onChange={(e) =>
-                                                setData({ ...data, To: e.target.value })
-                                            }
+                                    <div>
+                                        <Autocomplete
+                                            id="combo-box-demo"
+                                            options={json}
+                                            name="to"
+                                            getOptionLabel={(option) => option.name}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label="To"
+                                                    variant="outlined"
+                                                    onChange={(e) =>
+                                                        setData({
+                                                            ...data,
+                                                            destination: e.target.value,
+                                                        })
+                                                    }
+                                                />
+                                            )}
                                         />
                                     </div>
                                 </div>
@@ -219,20 +193,31 @@ function App() {
                                                 label="Departure"
                                                 value={selectedDate}
                                                 onChange={handleDateChange}
-                                                name="Departure"
+                                                name="departure"
                                             />
                                         </div>
 
                                         <div className="date">
-                                            <DatePicker
-                                                id="disableInput"
-                                                disableToolbar
-                                                label="Return"
-                                                value={returnDate}
-                                                onChange={setReturnDate}
-                                                name="Return"
-                                                disabled="disabled"
-                                            />
+                                            {data.type === 'Round trip' ? (
+                                                <DatePicker
+                                                    id="disableInput"
+                                                    disableToolbar
+                                                    label="Return"
+                                                    value={returnDate}
+                                                    onChange={setReturnDate}
+                                                    name="return"
+                                                />
+                                            ) : (
+                                                <DatePicker
+                                                    id="disableInput"
+                                                    disableToolbar
+                                                    label="Return"
+                                                    value={returnDate}
+                                                    onChange={setReturnDate}
+                                                    name="return"
+                                                    disabled
+                                                />
+                                            )}
                                         </div>
                                     </div>
                                 </MuiPickersUtilsProvider>
@@ -266,16 +251,16 @@ function App() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="class">
+                                <div className="class" style={{ marginTop: '5px' }}>
                                     <div className="topContainer">
                                         <div className="tabs">
                                             <input
                                                 type="radio"
                                                 id="radio-10"
-                                                name="Class"
+                                                name="class"
                                                 defaultChecked
                                                 onChange={() =>
-                                                    setData({ ...data, Class: 'Economy' })
+                                                    setData({ ...data, class: 'Economy' })
                                                 }
                                             />
                                             <label className="tab2" htmlFor="radio-10">
@@ -284,9 +269,9 @@ function App() {
                                             <input
                                                 type="radio"
                                                 id="radio-20"
-                                                name="Class"
+                                                name="class"
                                                 onChange={() =>
-                                                    setData({ ...data, Class: 'Business' })
+                                                    setData({ ...data, class: 'Business' })
                                                 }
                                             />
                                             <label className="tab2" htmlFor="radio-20">
@@ -295,9 +280,9 @@ function App() {
                                             <input
                                                 type="radio"
                                                 id="radio-30"
-                                                name="Class"
+                                                name="class"
                                                 onChange={() =>
-                                                    setData({ ...data, Class: 'First class' })
+                                                    setData({ ...data, class: 'First class' })
                                                 }
                                             />
                                             <label className="tab2" htmlFor="radio-30">
@@ -325,7 +310,7 @@ function App() {
                                             id="email"
                                             placeholder="Your Email*"
                                             onChange={(e) =>
-                                                setData({ ...data, Email: e.target.value })
+                                                setData({ ...data, email: e.target.value })
                                             }
                                         />
                                     </div>
@@ -350,10 +335,11 @@ function App() {
                                             }}
                                             name="payment"
                                             id="payment"
+                                            onBlur={(e) =>
+                                                setData({ ...data, method: e.target.value })
+                                            }
                                         >
-                                            <option default selected>
-                                                Payment Method
-                                            </option>
+                                            <option defaultValue>Payment Method</option>
                                             <option value="Card">Card</option>
                                             <option value="Crypto">Crypto</option>
                                         </select>
@@ -365,7 +351,7 @@ function App() {
                                         data-sitekey="6LfwuHUbAAAAAG-G073rAwjs3yiqXwW7kuWgv3NZ
 
                                         "
-                                        data-callback={(e) => dataSubmitted(e)}
+                                        onClick={() => handleClick()}
                                     />
                                 </div>
                             </form>

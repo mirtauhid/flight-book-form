@@ -1,3 +1,5 @@
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -11,13 +13,14 @@ const Header = () => {
                     Company Logo
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
+                <Navbar.Collapse className="drop" id="responsive-navbar-nav">
                     <Nav style={{ marginLeft: 'auto' }}>
-                        <Nav.Link style={{ margin: '0px 10px' }} as={Link} to="/faq">
-                            FAQ
+                        <Nav.Link style={{ margin: '0px 10px' }} eventKey={1} as={Link} to="/">
+                            <FontAwesomeIcon size="1x" icon={faHome} />
+                            <span style={{ marginLeft: '7px' }}>HOME</span>
                         </Nav.Link>
-                        <Nav.Link style={{ margin: '0px 10px' }} eventKey={2} as={Link} to="/">
-                            CONTACT US
+                        <Nav.Link style={{ margin: '0px 10px' }} eventKey={2} as={Link} to="/faq">
+                            FAQ
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
