@@ -42,42 +42,27 @@ function App() {
             setChildCount(childCount - 1);
         }
     };
-
-    function handleClick() {
-        handleDateChange(selectedDate?.toDateString().split(' ').join(' '));
-        setReturnDate(returnDate?.toDateString().split(' ').join(' '));
-
-        if (data.type === 'Round trip') {
-            setData({
-                ...data,
-                departure: datesRef.current,
-                adult: adultsRef.current,
-                child: childRef.current,
-                from: document.getElementById('from').value,
-                to: document.getElementById('to').value,
-                type: 'Round trip',
-                return: returnRef.current,
-            });
-        } else {
-            setData({
-                ...data,
-                departure: datesRef.current,
-                adult: adultsRef.current,
-                child: childRef.current,
-                from: document.getElementById('from').value,
-                to: document.getElementById('to').value,
-                type: 'One way',
-            });
-        }
+    const templateParams = dataRef.current;
+    function handleClick(e) {
+        e.preventDefault();
+        console.log(data);
+        handleDateChange(selectedDate.toDateString().split(' ').join(' '));
+        setReturnDate(returnDate.toDateString().split(' ').join(' '));
+        setData({
+            ...data,
+            departure: datesRef.current,
+            return: returnRef.current,
+            adult: adultsRef.current,
+            children: childRef.current,
+        });
 
         emailjs
             .send(
                 'service_3xjmjao',
                 'template_kyu8ez9',
-                dataRef.current,
+                templateParams,
                 'user_0H2rO4Hyu0QmmGlvgC3JY'
             )
-
             .then(
                 (response) => {
                     toast.success('Successfully submitted!');
@@ -136,6 +121,7 @@ function App() {
                                                 type="radio"
                                                 id="radio-1"
                                                 name="type"
+                                                defaultChecked
                                                 onChange={() =>
                                                     setData({ ...data, type: 'One way' })
                                                 }
@@ -144,6 +130,7 @@ function App() {
                                                 One Way
                                             </label>
                                             <input
+                                                required
                                                 type="radio"
                                                 id="radio-2"
                                                 name="type"
@@ -162,35 +149,45 @@ function App() {
                                 <div className="destination">
                                     <div>
                                         <Autocomplete
-                                            id="from"
+                                            id="combo-box-demo"
                                             options={json}
-                                            name="from"
                                             getOptionLabel={(option) =>
-                                                `${option.iata_code} - ${option.name} `
+                                                option.iata_code + option.name
                                             }
                                             renderInput={(params) => (
                                                 <TextField
+                                                    name="from"
+                                                    required
                                                     {...params}
                                                     label="From"
-                                                    id="origin"
                                                     variant="outlined"
+                                                    onChange={(e) =>
+                                                        setData({ ...data, origin: e.target.value })
+                                                    }
                                                 />
                                             )}
                                         />
                                     </div>
                                     <div>
                                         <Autocomplete
-                                            id="to"
+                                            required
+                                            id="combo-box-demo"
                                             options={json}
-                                            name="to"
                                             getOptionLabel={(option) =>
-                                                `${option.iata_code} - ${option.name} `
+                                                option.iata_code + option.name
                                             }
                                             renderInput={(params) => (
                                                 <TextField
+                                                    name="to"
                                                     {...params}
                                                     label="To"
                                                     variant="outlined"
+                                                    onChange={(e) =>
+                                                        setData({
+                                                            ...data,
+                                                            destination: e.target.value,
+                                                        })
+                                                    }
                                                 />
                                             )}
                                         />
@@ -212,12 +209,13 @@ function App() {
                                         <div className="date">
                                             {data.type === 'Round trip' ? (
                                                 <DatePicker
+                                                    required
                                                     id="disableInput"
                                                     disableToolbar
                                                     label="Return"
                                                     value={returnDate}
                                                     onChange={setReturnDate}
-                                                    name="return"
+                                                    name="departure"
                                                 />
                                             ) : (
                                                 <DatePicker
@@ -237,7 +235,9 @@ function App() {
                                     <div className="pass">
                                         <div className="arrange">
                                             <strong>Adults</strong>
-                                            <strong className="counter">{adultsCount}</strong>
+                                            <strong name="adultCount" className="counter">
+                                                {adultsCount}
+                                            </strong>
                                         </div>
                                         <div className="arrange">
                                             <button onClick={() => addAdult()} type="button">
@@ -251,7 +251,9 @@ function App() {
                                     <div className="pass">
                                         <div className="arrange">
                                             <strong>Children</strong>
-                                            <strong className="counter">{childCount}</strong>
+                                            <strong name="childCount" className="counter">
+                                                {childCount}
+                                            </strong>
                                         </div>
                                         <div className="arrange">
                                             <button onClick={() => addChild()} type="button">
@@ -318,7 +320,7 @@ function App() {
                                         <input
                                             required
                                             type="text"
-                                            name="Email"
+                                            name="email"
                                             id="email"
                                             placeholder="Your Email*"
                                             onChange={(e) =>
@@ -363,7 +365,7 @@ function App() {
                                         data-sitekey="6LfwuHUbAAAAAG-G073rAwjs3yiqXwW7kuWgv3NZ
 
                                         "
-                                        onClick={() => handleClick()}
+                                        onClick={(e) => handleClick(e)}
                                     />
                                 </div>
                             </form>
