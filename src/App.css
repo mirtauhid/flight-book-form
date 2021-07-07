@@ -52,7 +52,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 9px 110px;
+  padding: 9px 80px;
 }
 
 #formWrapper {
@@ -63,7 +63,7 @@ body {
   background-color: #fff;
   border-radius: 30px;
   overflow: hidden;
-  padding: 5%;
+  padding: 3%;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
   margin-top: 1vw;
 }
@@ -122,7 +122,7 @@ input[type="radio"] {
   align-items: center;
   justify-content: center;
   height: 40px;
-  width: 33.3%;
+  width: 48.9%;
   font-size: 1rem;
   font-weight: 700;
   border-radius: 99px;
@@ -202,7 +202,7 @@ input[id="radio-30"]:checked ~ .glider2 {
   position: absolute;
   display: flex;
   height: 41.2px;
-  width: 32.5%;
+  width: 48.9%;
   background-color: var(--secondary-color);
   z-index: 1;
   border-radius: 99px;
@@ -232,7 +232,8 @@ input[type="submit"] {
   margin: 0 auto;
   font-size: 1.15rem;
   font-weight: 700;
-  height: 56px;
+  height: 46px;
+  margin-top: 5px !important;
 }
 
 input[type="submit"]:hover {
@@ -284,6 +285,24 @@ input[type="date"] {
 
 .selectPass input[type="select"] {
   width: 100px !important;
+}
+
+.policy {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.policy label {
+  margin-top: 5px;
+  font-weight: 700;
+  margin-left: 10px;
 }
 
 .d-flex {
@@ -385,9 +404,9 @@ input[type="checkbox"] {
 
 .pass {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
   background-color: #fff;
   box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15),
     0 6px 12px 0 rgba(24, 94, 224, 0.15);
@@ -396,19 +415,31 @@ input[type="checkbox"] {
   height: 62px;
   margin-bottom: 0px;
   width: 100%;
-  max-width: 150px;
+  max-width: 28%;
   margin-top: -10px;
 }
 
 .arrange {
   display: flex;
-  flex-direction: column;
-  padding: 0px 10px;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.arrange strong {
+  text-align: left !important;
+  color: gray;
+  font-size: 14px;
+}
+
+.counter {
+  font-size: 22px !important;
+  color: var(--primary-color) !important;
 }
 
 .arrange button {
   border: none;
-  width: 30px;
+  width: 25px;
   height: 25px;
   margin: 2.5px 1px;
   border-radius: 2px;

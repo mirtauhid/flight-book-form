@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import DateFnsUtils from '@date-io/date-fns';
-import { faEnvelope, faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faEnvelope, faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -20,6 +20,7 @@ function App() {
     const [returnDate, setReturnDate, returnRef] = useState(new Date());
     const [adultsCount, setAdultsCount, adultsRef] = useState(0);
     const [childCount, setChildCount, childRef] = useState(0);
+    const [infCount, setInfCount, infRef] = useState(0);
     const [data, setData, dataRef] = useState({});
     const [json, setJson] = useState([]);
 
@@ -43,6 +44,16 @@ function App() {
         }
     };
 
+    const addInf = () => {
+        setInfCount(infCount + 1);
+    };
+
+    const removeInf = () => {
+        if (infCount > 0) {
+            setInfCount(infCount - 1);
+        }
+    };
+
     function handleClick() {
         handleDateChange(selectedDate?.toDateString().split(' ').join(' '));
         setReturnDate(returnDate?.toDateString().split(' ').join(' '));
@@ -53,6 +64,7 @@ function App() {
                 departure: datesRef.current,
                 adult: adultsRef.current,
                 child: childRef.current,
+                infant: infRef.current,
                 from: document.getElementById('from').value,
                 to: document.getElementById('to').value,
                 type: 'Round trip',
@@ -81,7 +93,6 @@ function App() {
             .then(
                 (response) => {
                     toast.success('Successfully submitted!');
-                    console.log(response);
                     console.log(dataRef.current);
                     setData({});
                     setAdultsCount(0);
@@ -91,7 +102,7 @@ function App() {
                 },
                 (err) => {
                     toast.error('Please Try again!');
-                    console.log(data);
+                    // console.log(data);
                 }
             );
     }
@@ -101,7 +112,7 @@ function App() {
             const response = await axios.get(
                 'https://raw.githubusercontent.com/algolia/datasets/master/airports/airports.json'
             );
-            console.log(response.data);
+            // console.log(response.data);
             setJson(response.data);
             response.data;
         };
@@ -236,10 +247,10 @@ function App() {
                                 <div className="flex-row">
                                     <div className="pass">
                                         <div className="arrange">
-                                            <strong>Adults</strong>
-                                            <strong className="counter">{adultsCount}</strong>
+                                            <strong>Adults (18+)</strong>
                                         </div>
                                         <div className="arrange">
+                                            <strong className="counter">{adultsCount}</strong>
                                             <button onClick={() => addAdult()} type="button">
                                                 +
                                             </button>
@@ -250,10 +261,10 @@ function App() {
                                     </div>
                                     <div className="pass">
                                         <div className="arrange">
-                                            <strong>Children</strong>
-                                            <strong className="counter">{childCount}</strong>
+                                            <strong>Child (2 - 11)</strong>
                                         </div>
                                         <div className="arrange">
+                                            <strong className="counter">{childCount}</strong>
                                             <button onClick={() => addChild()} type="button">
                                                 +
                                             </button>
@@ -262,46 +273,74 @@ function App() {
                                             </button>
                                         </div>
                                     </div>
+                                    <div className="pass">
+                                        <div className="arrange">
+                                            <strong>Infant (0 - 2)</strong>
+                                        </div>
+                                        <div className="arrange">
+                                            <strong className="counter">{infCount}</strong>
+                                            <button onClick={() => addInf()} type="button">
+                                                +
+                                            </button>
+                                            <button onClick={() => removeInf()} type="button">
+                                                -
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="class" style={{ marginTop: '5px' }}>
+                                <div className="top">
                                     <div className="topContainer">
                                         <div className="tabs">
                                             <input
+                                                required
                                                 type="radio"
                                                 id="radio-10"
                                                 name="class"
-                                                defaultChecked
                                                 onChange={() =>
-                                                    setData({ ...data, class: 'Economy' })
+                                                    setData({ ...data, class: 'Business' })
                                                 }
                                             />
                                             <label className="tab2" htmlFor="radio-10">
-                                                Economy
+                                                Business
                                             </label>
                                             <input
                                                 type="radio"
                                                 id="radio-20"
                                                 name="class"
                                                 onChange={() =>
-                                                    setData({ ...data, class: 'Business' })
+                                                    setData({ ...data, class: 'First Class' })
                                                 }
                                             />
                                             <label className="tab2" htmlFor="radio-20">
-                                                Business
-                                            </label>
-                                            <input
-                                                type="radio"
-                                                id="radio-30"
-                                                name="class"
-                                                onChange={() =>
-                                                    setData({ ...data, class: 'First class' })
-                                                }
-                                            />
-                                            <label className="tab2" htmlFor="radio-30">
                                                 First Class
                                             </label>
+
                                             <span className="glider2" />
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div className="bottom flex-col">
+                                    <div id="nonStop" style={{ marginTop: '10px' }}>
+                                        <div
+                                            style={{
+                                                marginLeft: '10px',
+                                                marginTop: '2px',
+                                                color: 'var(--primary-color)',
+                                            }}
+                                        >
+                                            <FontAwesomeIcon size="1x" icon={faAddressCard} />
+                                        </div>
+                                        <input
+                                            required
+                                            type="text"
+                                            name="Name"
+                                            id="email"
+                                            placeholder="Your Name*"
+                                            onChange={(e) =>
+                                                setData({ ...data, name: e.target.value })
+                                            }
+                                        />
                                     </div>
                                 </div>
                                 <div className="bottom flex-col">
@@ -354,7 +393,17 @@ function App() {
                                             <option defaultValue>Payment Method</option>
                                             <option value="Card">Card</option>
                                             <option value="Crypto">Crypto</option>
+                                            <option value="Asterisk">Asterisk</option>
                                         </select>
+                                    </div>
+                                    <div className="policy">
+                                        <input
+                                            onChange={() => setData({ ...data, conditions: true })}
+                                            type="checkbox"
+                                            name="t&c"
+                                            id="t&c"
+                                        />
+                                        <label htmlFor="t&c">T&Cs / Privacy-policy</label>
                                     </div>
                                     <input
                                         style={{ marginTop: '15px' }}
