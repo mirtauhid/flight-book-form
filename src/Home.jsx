@@ -398,7 +398,9 @@ function App() {
                                     </div>
                                     <div className="policy">
                                         <input
-                                            onChange={() => setData({ ...data, conditions: true })}
+                                            onChange={() =>
+                                                setData({ ...data, conditions: 'Accepted' })
+                                            }
                                             type="checkbox"
                                             name="t&c"
                                             id="t&c"
